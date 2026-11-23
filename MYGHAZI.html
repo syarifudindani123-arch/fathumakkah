@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MyGhazi: Fathu Makkah</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka (Bulat, ramah anak/remaja) & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ghazi: {
+                            dark: '#480878',
+                            main: '#5E1199',
+                            light: '#7E22CE',
+                            soft: '#F3E8FF',
+                            gold: '#FBBF24',
+                            orange: '#F59E0B',
+                            amber: '#D97706'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: #2E044E;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Portrait Frame Container (Simulates Android WebView cleanly on desktop while filling 100% on mobile) */
+        .app-shell {
+            max-width: 480px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #480878 0%, #58108F 55%, #3B0663 100%);
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Subtle Desert & Map Pattern Background */
+        .bg-map-pattern {
+            background-image: radial-gradient(rgba(251, 191, 36, 0.12) 1.5px, transparent 1.5px),
+                              radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 28px 28px;
+            background-position: 0 0, 14px 14px;
+        }
+
+        /* Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(1.5deg); }
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(0.85); opacity: 0.9; }
+            70% { transform: scale(1.45); opacity: 0; }
+            100% { transform: scale(1.45); opacity: 0; }
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            70% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        @keyframes idolTopple {
+            0% { transform: rotate(0deg) translateY(0); opacity: 1; }
+            30% { transform: rotate(-12deg) translateY(-4px); }
+            100% { transform: rotate(88deg) translateY(28px) scale(0.85); opacity: 0; }
+        }
+
+        @keyframes dustCloud {
+            0% { transform: scale(0.3); opacity: 0.9; }
+            60% { transform: scale(1.4); opacity: 0.7; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-float { animation: floatSlow 3.8s ease-in-out infinite; }
+        .animate-pulse-ring { animation: pulseRing 2s cubic-bezier(0.24, 0, 0.38, 1) infinite; }
+        .animate-slide-up { animation: slideUpFade 0.45s ease-out forwards; }
+        .animate-pop { animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        .animate-idol-fall { animation: idolTopple 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; }
+        .animate-dust { animation: dustCloud 0.75s ease-out forwards; }
+        .animate-spin-slow { animation: spinSlow 24s linear infinite; }
+
+        /* 3D Tactile Button Style */
+        .btn-3d-gold {
+            background: linear-gradient(180deg, #FBBF24 0%, #F59E0B 100%);
+            box-shadow: 0 5px 0 #B45309, 0 8px 18px rgba(245, 158, 11, 0.35);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-3d-gold:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #B45309, 0 3px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-3d-purple {
+            background: linear-gradient(180deg, #7E22CE 0%, #58108F 100%);
+            box-shadow: 0 4px 0 #3B0663, 0 6px 14px rgba(72, 8, 120, 0.3);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-3d-purple:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #3B0663;
+        }
+
+        /* Custom Scrollbar hide */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.3); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="app" class="app-shell bg-map-pattern flex flex-col justify-between text-white">
+    <!-- Konten dinamis akan dirender oleh JavaScript di sini -->
+</div>
+
+<!-- Modal / Overlay Container untuk Hotspot & Notifikasi -->
+<div id="modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-sm max-w-[480px] mx-auto">
+    <div id="modal-box" class="bg-white text-slate-800 w-full rounded-3xl p-5 shadow-2xl border-4 border-ghazi-gold animate-pop relative">
+        <!-- Isi Modal -->
+    </div>
+</div>
+
+<script>
+/**
+ * ============================================================================
+ * KONFIGURASI VIDEO GOOGLE FLOW / URL VIDEO CHAPTER
+ * ============================================================================
+ * Anda dapat dengan mudah mengganti link video di bawah ini dengan link video
+ * dari Google Flow, Cloudinary, Firebase Storage, atau hosting MP4 langsung.
+ * Cukup ubah nilai string pada properti `chapter_01` sampai `chapter_10`.
+ */
+const VIDEO_CONFIG = {
+    chapter_01: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402163/538852225_1794920036343582.mp4",
+    chapter_02: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402163/881193526_1794875337307403.mp4",
+    chapter_03: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402162/831710116_1794875519547760.mp4",
+    chapter_04: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402160/892738378_1794875662212943.mp4",
+    chapter_05: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402171/883389870_1794875776012295.mp4",
+    chapter_06: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402800/764808307_1794921508727536.mp4",
+    chapter_07: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402165/900137926_1794876102198074.mp4",
+    chapter_08: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402166/988639867_1794876216493866.mp4",
+    chapter_09: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402167/788219689_1794876472302804.mp4",
+    chapter_10: "https://res.cloudinary.com/gw3djznw/video/upload/v1795402169/887007415_1795047456549435.mp4"
+};
+
+/**
+ * ============================================================================
+ * DATA KONTEN SEJARAH FATHU MAKKAH (10 CHAPTER, HOTSPOT, KUIS, HIKMAH)
+ * ============================================================================
+ */
+const CHAPTERS_DATA = [
+    {
+        id: 1,
+        code: "01",
+        title: "Pembukaan Kota Makkah",
+        videoUrl: VIDEO_CONFIG.chapter_01,
+        sceneIcon: "kaaba",
+        narration: "Tahun ke-8 Hijriah menjadi momen bersejarah bagi umat Islam. Peristiwa Fathu Makkah adalah pembebasan Kota Makkah secara damai yang membuka lembaran baru kejayaan Islam tanpa pertumpahan darah.",
+        hotspots: [
+            {
+                id: "hs_kaaba_1",
+                label: "Ka'bah Al-Musyarrafah",
+                x: 50, y: 45,
+                icon: "🕋",
+                title: "Baitullah (Ka'bah)",
+                desc: "Kiblat umat Islam yang dibangun oleh Nabi Ibrahim AS dan Nabi Ismail AS. Pada masa pra-Islam, Ka'bah dikelilingi oleh 360 berhala."
+            },
+            {
+                id: "hs_makkah_1",
+                label: "Lembah Makkah",
+                x: 24, y: 65,
+                icon: "🏜️",
+                title: "Kota Suci Makkah",
+                desc: "Kota kelahiran Rasulullah SAW yang dikelilingi bukit-bukit batu tandus di wilayah Hijaz, Jazirah Arab."
+            }
+        ]
+    },
+    {
+        id: 2,
+        code: "02",
+        title: "Pelanggaran Perjanjian Hudaibiyah",
+        videoUrl: VIDEO_CONFIG.chapter_02,
+        sceneIcon: "scroll",
+        narration: "Kaum Quraisy melanggar Perjanjian Hudaibiyah dengan membantu Bani Bakr menyerang Bani Khuza'ah yang bersekutu dengan kaum Muslimin. Pelanggaran gencatan senjata ini memicu langkah tegas dari Madinah.",
+        hotspots: [
+            {
+                id: "hs_map_madinah",
+                label: "Peta Madinah",
+                x: 32, y: 42,
+                icon: "🗺️",
+                title: "Madinah Al-Munawwarah",
+                desc: "Pusat pemerintahan Islam berjarak sekitar 450 km di sebelah utara Makkah. Dari sinilah strategi damai disusun."
+            },
+            {
+                id: "hs_scroll",
+                label: "Piagam Hudaibiyah",
+                x: 68, y: 55,
+                icon: "📜",
+                title: "Perjanjian Hudaibiyah (6 H)",
+                desc: "Kesepakatan damai selama 10 tahun antara Madinah dan Quraisy Makkah yang dikhianati oleh pihak Quraisy."
+            }
+        ]
+    },
+    {
+        id: 3,
+        code: "03",
+        title: "Keberangkatan Pasukan Muslim",
+        videoUrl: VIDEO_CONFIG.chapter_03,
+        sceneIcon: "tent",
+        narration: "Pada bulan Ramadhan tahun 8 Hijriah, sebanyak 10.000 pasukan Muslim bergerak dari Madinah menuju Makkah dengan penuh disiplin, menjaga kerahasiaan demi menghindari peperangan besar.",
+        hotspots: [
+            {
+                id: "hs_campfire",
+                label: "Api Unggun Marr az-Zhahran",
+                x: 55, y: 58,
+                icon: "🔥",
+                title: "10.000 Api Unggun",
+                desc: "Di lembah Marr az-Zhahran dekat Makkah, pasukan Muslim menyalakan 10.000 api unggun di malam hari untuk menggetarkan nyali Quraisy tanpa perang."
+            },
+            {
+                id: "hs_tent",
+                label: "Perkemahan Pasukan",
+                x: 28, y: 44,
+                icon: "⛺",
+                title: "Disiplin Pasukan",
+                desc: "Pasukan Muslim diperintahkan untuk tidak menyerang kecuali jika diserang terlebih dahulu, serta dilarang merusak tanaman atau melukai warga sipil."
+            }
+        ]
+    },
+    {
+        id: 4,
+        code: "04",
+        title: "Abu Sufyan Bertemu Abbas",
+        videoUrl: VIDEO_CONFIG.chapter_04,
+        sceneIcon: "compass",
+        narration: "Pemimpin Quraisy, Abu Sufyan bin Harb, keluar memantau keadaan malam dan bertemu dengan Abbas bin Abdul Muthalib. Melalui dialog bijak, Abu Sufyan akhirnya memeluk Islam dan jaminan keamanan diumumkan.",
+        hotspots: [
+            {
+                id: "hs_map_makkah_4",
+                label: "Jalur Masuk Makkah",
+                x: 48, y: 48,
+                icon: "🧭",
+                title: "Jaminan Keamanan",
+                desc: "Siapa saja yang masuk ke rumah Abu Sufyan, menutup pintu rumahnya, atau masuk ke Masjidil Haram, maka ia akan aman."
+            }
+        ]
+    },
+    {
+        id: 5,
+        code: "05",
+        title: "Memasuki Kota Makkah",
+        videoUrl: VIDEO_CONFIG.chapter_05,
+        sceneIcon: "mountain",
+        narration: "Pasukan Muslim dibagi menjadi empat penjuru untuk memasuki Makkah dengan tertib dan penuh kerendahan hati. Hampir seluruh sudut kota terbuka dengan damai tanpa perlawanan berarti.",
+        hotspots: [
+            {
+                id: "hs_4_routes",
+                label: "4 Penjuru Pasukan",
+                x: 62, y: 46,
+                icon: "🚩",
+                title: "Strategi Empat Penjuru",
+                desc: "Pasukan masuk dari arah atas (Kada') dan bawah (Kuda) Makkah secara serentak untuk mencegah bentrokan besar."
+            }
+        ]
+    },
+    {
+        id: 6,
+        code: "06",
+        title: "Pembersihan Berhala",
+        videoUrl: VIDEO_CONFIG.chapter_06,
+        sceneIcon: "idol",
+        hasMiniMission: true, // Memicu Misi Interaktif Penghancuran Berhala!
+        narration: "Setibanya di Masjidil Haram, berhala-berhala yang selama ratusan tahun disembah di sekeliling Ka'bah diruntuhkan sambil mengumandangkan kebenaran tauhid: 'Kebenaran telah datang dan yang batil telah lenyap.'",
+        hotspots: [
+            {
+                id: "hs_idol_info",
+                label: "360 Berhala Quraisy",
+                x: 45, y: 50,
+                icon: "🗿",
+                title: "Runtuhnya Kemusyrikan",
+                desc: "Berhala seperti Hubal, Latta, dan Uzza di sekitar Ka'bah dibersihkan seluruhnya sehingga Ka'bah kembali murni untuk beribadah kepada Allah SWT."
+            }
+        ]
+    },
+    {
+        id: 7,
+        code: "07",
+        title: "Pembersihan Bagian Dalam Ka'bah",
+        videoUrl: VIDEO_CONFIG.chapter_07,
+        sceneIcon: "kaaba",
+        narration: "Bagian dalam Ka'bah juga dibersihkan dari berbagai gambar dan patung peninggalan masa jahiliyah. Ka'bah disucikan kembali sebagai rumah ibadah tauhid yang bersih dan mulia.",
+        hotspots: [
+            {
+                id: "hs_kaaba_inside",
+                label: "Interior Ka'bah",
+                x: 50, y: 45,
+                icon: "✨",
+                title: "Kesucian Baitullah",
+                desc: "Dinding bagian dalam Ka'bah dibersihkan dengan air hingga suci, lalu dilaksanakan shalat syukur di dalamnya."
+            }
+        ]
+    },
+    {
+        id: 8,
+        code: "08",
+        title: "Azan Bilal bin Rabah",
+        videoUrl: VIDEO_CONFIG.chapter_08,
+        sceneIcon: "sound",
+        narration: "Untuk pertama kalinya setelah pembebasan Makkah, Bilal bin Rabah naik ke atas atap Ka'bah dan mengumandangkan azan dengan suara merdu yang menggema ke seluruh penjuru lembah Makkah.",
+        hotspots: [
+            {
+                id: "hs_bilal_azan",
+                label: "Atap Ka'bah",
+                x: 52, y: 38,
+                icon: "📢",
+                title: "Gema Tauhid Bilal",
+                desc: "Bilal bin Rabah, mantan budak yang dahulu disiksa di Makkah, kini berdiri mulia di atas Ka'bah mengumandangkan panggilan shalat."
+            }
+        ]
+    },
+    {
+        id: 9,
+        code: "09",
+        title: "Pengembalian Kunci Ka'bah",
+        videoUrl: VIDEO_CONFIG.chapter_09,
+        sceneIcon: "key",
+        narration: "Kunci Ka'bah dikembalikan secara resmi kepada Utsman bin Thalhah dari Bani Syaibah sebagai pemegang amanah penjaga pintu Ka'bah secara turun-temurun.",
+        hotspots: [
+            {
+                id: "hs_kaaba_key",
+                label: "Kunci Ka'bah",
+                x: 50, y: 52,
+                icon: "🗝️",
+                title: "Amanah Bani Syaibah",
+                desc: "Meski sempat diminta oleh kerabat dekat, kunci Ka'bah tetap diserahkan kepada yang berhak sebagai teladan agung sifat amanah."
+            }
+        ]
+    },
+    {
+        id: 10,
+        code: "10",
+        title: "Pengampunan Penduduk Makkah",
+        videoUrl: VIDEO_CONFIG.chapter_10,
+        sceneIcon: "heart",
+        narration: "Di hadapan penduduk Quraisy yang dahulu memusuhi umat Islam, diberikan pengampunan umum dengan ucapan penuh kasih sayang: 'Pergilah kalian, sesungguhnya kalian telah bebas.'",
+        hotspots: [
+            {
+                id: "hs_amnesty",
+                label: "Amnesti Umum",
+                x: 50, y: 48,
+                icon: "🕊️",
+                title: "Kasih Sayang Tanpa Dendam",
+                desc: "Akhlak pemaaf yang luar biasa ini membuat penduduk Makkah berbondong-bondong memeluk Islam dengan sukarela dan penuh cinta."
+            }
+        ]
+    }
+];
+
+const QUIZ_DATA = [
+    {
+        question: "Pada tahun ke berapakah peristiwa Fathu Makkah terjadi?",
+        options: [
+            "Tahun ke-2 Hijriah",
+            "Tahun ke-6 Hijriah",
+            "Tahun ke-8 Hijriah",
+            "Tahun ke-10 Hijriah"
+        ],
+        correct: 2,
+        explanation: "Fathu Makkah terjadi pada bulan Ramadhan tahun ke-8 Hijriah."
+    },
+    {
+        question: "Apa penyebab utama terjadinya peristiwa Fathu Makkah?",
+        options: [
+            "Kaum Quraisy melanggar Perjanjian Hudaibiyah",
+            "Perebutan jalur perdagangan menuju Syam",
+            "Kekeringan panjang di wilayah Madinah",
+            "Undangan resmi dari raja Romawi"
+        ],
+        correct: 0,
+        explanation: "Kaum Quraisy membantu Bani Bakr menyerang Bani Khuza'ah sehingga melanggar Perjanjian Hudaibiyah."
+    },
+    {
+        question: "Berapa jumlah pasukan Muslim yang berangkat dari Madinah menuju Makkah?",
+        options: [
+            "313 pasukan",
+            "1.000 pasukan",
+            "3.000 pasukan",
+            "10.000 pasukan"
+        ],
+        correct: 3,
+        explanation: "Sebanyak 10.000 pasukan Muslim bergerak dengan tertib dan damai menuju Makkah."
+    },
+    {
+        question: "Siapakah sahabat yang mengumandangkan azan pertama kali di atas atap Ka'bah saat Fathu Makkah?",
+        options: [
+            "Abu Bakar Ash-Shiddiq",
+            "Bilal bin Rabah",
+            "Umar bin Khattab",
+            "Khalid bin Walid"
+        ],
+        correct: 1,
+        explanation: "Bilal bin Rabah naik ke atas Ka'bah dan mengumandangkan azan yang menggetarkan seluruh Kota Makkah."
+    },
+    {
+        question: "Kepada siapakah kunci Ka'bah dikembalikan sebagai bentuk teladan sifat amanah?",
+        options: [
+            "Abu Sufyan bin Harb",
+            "Abbas bin Abdul Muthalib",
+            "Utsman bin Thalhah",
+            "Zaid bin Haritsah"
+        ],
+        correct: 2,
+        explanation: "Kunci Ka'bah dikembalikan kepada Utsman bin Thalhah dan keturunan Bani Syaibah."
+    }
+];
+
+const HIKMAH_DATA = [
+    {
+        id: "tauhid",
+        title: "TAUHID",
+        icon: "🕋",
+        color: "from-amber-400 to-orange-500",
+        summary: "Mengesakan Allah SWT dan membersihkan hati serta kehidupan dari segala bentuk kemusyrikan, sebagaimana bersihnya Ka'bah dari berhala."
+    },
+    {
+        id: "amanah",
+        title: "AMANAH",
+        icon: "🗝️",
+        color: "from-purple-500 to-indigo-600",
+        summary: "Menunaikan hak dan kepercayaan kepada pemiliknya, seperti pengembalian kunci Ka'bah kepada Utsman bin Thalhah."
+    },
+    {
+        id: "pengampunan",
+        title: "PENGAMPUNAN",
+        icon: "🕊️",
+        color: "from-emerald-400 to-teal-600",
+        summary: "Memaafkan kesalahan orang lain saat memiliki kuasa untuk membalas adalah kemuliaan akhlak yang meluluhkan hati."
+    },
+    {
+        id: "keteguhan",
+        title: "KETEGUHAN IMAN",
+        icon: "🛡️",
+        color: "from-pink-500 to-rose-600",
+        summary: "Kesabaran, ketaatan, dan istiqamah dalam perjuangan akan selalu berbuah pertolongan dari Allah SWT."
+    }
+];
+
+/**
+ * ============================================================================
+ * WEB AUDIO API SOUND ENGINE (Tanpa file audio eksternal)
+ * ============================================================================
+ */
+const SoundFX = {
+    ctx: null,
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    },
+    playTap() {
+        try {
+            this.init();
+            if (!this.ctx) return;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + 0.09);
+        } catch (e) {}
+    },
+    playCrumble() {
+        try {
+            this.init();
+            if (!this.ctx) return;
+            // Low rumble + noise burst for toppling idol
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(160, this.ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(42, this.ctx.currentTime + 0.35);
+            gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.38);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + 0.38);
+        } catch (e) {}
+    },
+    playSuccess() {
+        try {
+            this.init();
+            if (!this.ctx) return;
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+            notes.forEach((freq, i) => {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.08);
+                gain.gain.setValueAtTime(0.15, this.ctx.currentTime + i * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.08 + 0.25);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(this.ctx.currentTime + i * 0.08);
+                osc.stop(this.ctx.currentTime + i * 0.08 + 0.25);
+            });
+        } catch (e) {}
+    },
+    playError() {
+        try {
+            this.init();
+            if (!this.ctx) return;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(150, this.ctx.currentTime + 0.22);
+            gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.24);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + 0.24);
+        } catch (e) {}
+    }
+};
+
+/**
+ * ============================================================================
+ * STATE MANAGEMENT APLIKASI
+ * ============================================================================
+ */
+const state = {
+    screen: 'splash', // 'splash' | 'map' | 'chapter' | 'mission' | 'quiz' | 'hikmah' | 'complete'
+    currentChapterIndex: 0,
+    completedChapters: [], // array of chapter ids (1..10)
+    missionCompleted: false,
+    idolsDestroyed: [false, false, false, false], // 4 berhala dalam misi
+    quizIndex: 0,
+    quizScore: 0,
+    quizAnswered: false,
+    selectedOption: null,
+    quizCompleted: false,
+    discoveredHikmah: [], // array of hikmah ids
+    activeHikmah: null,
+    isVideoPlaying: false
+};
+
+// Muat progres tersimpan dari localStorage jika ada
+try {
+    const saved = localStorage.getItem('myghazi_fathu_makkah_v1');
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        Object.assign(state, {
+            completedChapters: parsed.completedChapters || [],
+            missionCompleted: parsed.missionCompleted || false,
+            quizScore: parsed.quizScore || 0,
+            quizCompleted: parsed.quizCompleted || false,
+            discoveredHikmah: parsed.discoveredHikmah || []
+        });
+    }
+} catch (e) {}
+
+function saveProgress() {
+    try {
+        localStorage.setItem('myghazi_fathu_makkah_v1', JSON.stringify({
+            completedChapters: state.completedChapters,
+            missionCompleted: state.missionCompleted,
+            quizScore: state.quizScore,
+            quizCompleted: state.quizCompleted,
+            discoveredHikmah: state.discoveredHikmah
+        }));
+    } catch (e) {}
+}
+
+/**
+ * ============================================================================
+ * NAVIGASI & MODAL HELPERS
+ * ============================================================================
+ */
+function navigateTo(screenName, extra = {}) {
+    SoundFX.playTap();
+    Object.assign(state, extra);
+    state.screen = screenName;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showModal(htmlContent) {
+    SoundFX.playTap();
+    const overlay = document.getElementById('modal-overlay');
+    const box = document.getElementById('modal-box');
+    box.innerHTML = htmlContent;
+    overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
+}
+
+function closeModal() {
+    SoundFX.playTap();
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('hidden');
+    overlay.classList.remove('flex');
+}
+
+function openHotspot(chapterIdx, hotspotIdx) {
+    const hs = CHAPTERS_DATA[chapterIdx].hotspots[hotspotIdx];
+    showModal(`
+        <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-3 rounded-2xl bg-ghazi-soft flex items-center justify-center text-4xl shadow-inner border-2 border-purple-200">
+                ${hs.icon}
+            </div>
+            <span class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold tracking-wide uppercase mb-1">
+                Objek Sejarah
+            </span>
+            <h3 class="font-display text-xl font-bold text-ghazi-dark mb-2">${hs.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-5 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                ${hs.desc}
+            </p>
+            <button onclick="closeModal()" class="w-full py-3.5 rounded-2xl btn-3d-purple text-white font-display font-bold text-base tracking-wide">
+                Tutup & Lanjut Cerita
+            </button>
+        </div>
+    `);
+}
+
+/**
+ * ============================================================================
+ * ILUSTRASI SVG KUSTOM (Flat/Cartoon & Ramah Anak/Remaja)
+ * ============================================================================
+ */
+function getKaabaHeroSVG() {
+    return `
+    <svg viewBox="0 0 320 220" class="w-full max-w-[290px] mx-auto drop-shadow-xl animate-float">
+        <!-- Lingkaran Cahaya Latar -->
+        <circle cx="160" cy="110" r="88" fill="rgba(251, 191, 36, 0.14)" />
+        <circle cx="160" cy="110" r="68" fill="rgba(251, 191, 36, 0.22)" />
+        
+        <!-- Bukit Gurun Makkah -->
+        <path d="M25 175 Q75 115 130 165 Q180 120 235 160 Q270 135 298 175 Z" fill="#7E22CE" opacity="0.65"/>
+        <path d="M15 180 Q90 135 165 175 Q230 130 305 180 Z" fill="#D97706"/>
+        <path d="M10 185 Q160 160 310 185 L295 198 L25 198 Z" fill="#F59E0B"/>
+
+        <!-- Tenda & Pohon Kurma Kecil -->
+        <polygon points="48,166 64,142 80,166" fill="#FEF3C7"/>
+        <polygon points="64,142 80,166 71,166" fill="#FDE68A"/>
+        <rect x="248" y="144" width="4" height="22" rx="2" fill="#78350F"/>
+        <path d="M250 145 Q238 138 234 146 M250 145 Q262 138 266 146 M250 144 Q242 132 238 136 M250 144 Q258 132 262 136" stroke="#10B981" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+        <!-- Bangunan Ka'bah (Isometrik Kartun Bersih) -->
+        <g transform="translate(112, 62)">
+            <!-- Bayangan Bawah -->
+            <ellipse cx="48" cy="108" rx="52" ry="10" fill="rgba(46, 4, 78, 0.45)"/>
+            <!-- Sisi Kiri Ka'bah -->
+            <polygon points="8,24 48,38 48,104 8,88" fill="#1E1B4B"/>
+            <!-- Sisi Kanan Ka'bah -->
+            <polygon points="48,38 88,24 88,88 48,104" fill="#312E81"/>
+            <!-- Atap Ka'bah -->
+            <polygon points="48,12 88,24 48,38 8,24" fill="#4338CA"/>
+            
+            <!-- Kiswah Emas (Sabuk Kaligrafi) -->
+            <polygon points="8,40 48,54 48,62 8,48" fill="#FBBF24"/>
+            <polygon points="48,54 88,40 88,48 48,62" fill="#F59E0B"/>
+            
+            <!-- Pintu Ka'bah Emas -->
+            <polygon points="60,64 73,59 73,93 60,98" fill="#FBBF24" rx="2"/>
+            <line x1="66.5" y1="61.5" x2="66.5" y2="95.5" stroke="#B45309" stroke-width="1.2"/>
+
+            <!-- Hijr Ismail (Dinding Setengah Lingkaran) -->
+            <path d="M10 92 Q-8 102 18 107" stroke="#FEF3C7" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <!-- Bintang & Kompas Dekoratif -->
+        <circle cx="72" cy="54" r="4" fill="#FBBF24"/>
+        <circle cx="252" cy="64" r="5" fill="#FBBF24"/>
+        <path d="M245 40 L248 47 L255 50 L248 53 L245 60 L242 53 L235 50 L242 47 Z" fill="#FEF08A"/>
+        <path d="M84 72 L86 77 L91 79 L86 81 L84 86 L82 81 L77 79 L82 77 Z" fill="#FEF08A"/>
+    </svg>`;
+}
+
+function getHeaderHTML(title, subtitle, showBack = true, backTarget = 'map') {
+    const progressPct = Math.round((state.completedChapters.length / CHAPTERS_DATA.length) * 100);
+    return `
+    <header class="sticky top-0 z-30 bg-ghazi-dark/95 backdrop-blur-md px-4 pt-3 pb-3 border-b border-white/10">
+        <div class="flex items-center justify-between gap-2">
+            ${showBack ? `
+                <button onclick="navigateTo('${backTarget}')" class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center text-white transition" aria-label="Kembali">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+            ` : `
+                <div class="w-10 h-10 rounded-full bg-ghazi-gold text-ghazi-dark font-display font-bold flex items-center justify-center text-lg shadow">
+                    🧭
+                </div>
+            `}
+            
+            <div class="flex-1 text-center">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-ghazi-gold">${subtitle}</div>
+                <h1 class="font-display font-bold text-base sm:text-lg text-white leading-tight truncate">${title}</h1>
+            </div>
+
+            <div class="bg-white/15 px-2.5 py-1.5 rounded-full flex items-center gap-1.5 border border-white/15">
+                <span class="text-xs">⭐</span>
+                <span class="text-xs font-extrabold text-ghazi-gold">${state.completedChapters.length}/10</span>
+            </div>
+        </div>
+        
+        <!-- Progress Bar Perjalanan -->
+        <div class="mt-2.5 w-full bg-black/30 h-2 rounded-full overflow-hidden p-0.5">
+            <div class="bg-gradient-to-r from-ghazi-gold to-ghazi-orange h-full rounded-full transition-all duration-500" style="width: ${progressPct}%"></div>
+        </div>
+    </header>`;
+}
+
+/**
+ * ============================================================================
+ * 1. HALAMAN PEMBUKA (SPLASH SCREEN)
+ * ============================================================================
+ */
+function renderSplashScreen() {
+    const hasProgress = state.completedChapters.length > 0;
+    return `
+    <div class="flex-1 flex flex-col justify-between p-6 relative overflow-hidden">
+        <!-- Ornamen Kompas Berputar di Sudut -->
+        <div class="absolute -top-16 -right-16 w-56 h-56 opacity-15 pointer-events-none animate-spin-slow">
+            <svg viewBox="0 0 100 100" fill="none" stroke="#FBBF24" stroke-width="2">
+                <circle cx="50" cy="50" r="45" stroke-dasharray="4 4"/>
+                <circle cx="50" cy="50" r="32"/>
+                <polygon points="50,8 56,44 92,50 56,56 50,92 44,56 8,50 44,44" fill="#FBBF24" opacity="0.4"/>
+            </svg>
+        </div>
+
+        <!-- Brand Logo MyGhazi -->
+        <div class="pt-3 flex flex-col items-center animate-slide-up">
+            <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/25 shadow-lg">
+                <span class="w-6 h-6 rounded-full bg-ghazi-gold text-ghazi-dark flex items-center justify-center font-display font-bold text-xs">M</span>
+                <span class="font-display font-bold text-lg tracking-wide text-white">My<span class="text-ghazi-gold">Ghazi</span></span>
+            </div>
+            <span class="text-[11px] font-semibold text-purple-200 mt-1.5 tracking-widest uppercase">Edisi Sirah Nabawiyah Interaktif</span>
+        </div>
+
+        <!-- Ilustrasi Utama & Judul -->
+        <div class="my-auto py-4 text-center animate-slide-up" style="animation-delay: 0.1s;">
+            ${getKaabaHeroSVG()}
+            
+            <div class="mt-2 inline-block px-3.5 py-1 rounded-full bg-amber-400/20 border border-amber-300/40 text-ghazi-gold text-xs font-extrabold tracking-wider uppercase">
+                Tahun 8 Hijriah
+            </div>
+            <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mt-2 tracking-tight drop-shadow-md">
+                FATHU <span class="text-ghazi-gold">MAKKAH</span>
+            </h1>
+            <p class="text-purple-100 text-sm sm:text-base mt-2 max-w-[300px] mx-auto leading-relaxed font-medium">
+                Menelusuri peristiwa pembebasan Makkah secara damai dan penuh hikmah.
+            </p>
+        </div>
+
+        <!-- Tombol Aksi Utama -->
+        <div class="pb-4 space-y-3 animate-slide-up" style="animation-delay: 0.2s;">
+            <button onclick="navigateTo('map')" class="w-full py-4 px-6 rounded-3xl btn-3d-gold text-ghazi-dark font-display font-bold text-lg sm:text-xl tracking-wide flex items-center justify-center gap-3">
+                <span>${hasProgress ? 'LANJUTKAN PERJALANAN' : 'MULAI PERJALANAN'}</span>
+                <span class="w-8 h-8 rounded-full bg-ghazi-dark text-ghazi-gold flex items-center justify-center text-base">▶</span>
+            </button>
+
+            ${hasProgress ? `
+                <div class="text-center">
+                    <span class="text-xs text-purple-200 font-semibold">
+                        Progres tersimpan: ${state.completedChapters.length} dari 10 titik cerita selesai
+                    </span>
+                </div>
+            ` : `
+                <div class="flex items-center justify-center gap-4 text-xs text-purple-200/90 font-semibold pt-1">
+                    <span>🗺️ 10 Cerita</span>
+                    <span>•</span>
+                    <span>🎯 Misi Seru</span>
+                    <span>•</span>
+                    <span>🏆 Kuis & Hikmah</span>
+                </div>
+            `}
+        </div>
+    </div>`;
+}
+
+/**
+ * ============================================================================
+ * 2. PETA PERJALANAN CERITA (10 TITIK INTERAKTIF + MISI + KUIS + HIKMAH)
+ * ============================================================================
+ */
+function renderMapScreen() {
+    const allChaptersDone = state.completedChapters.length >= 10;
+
+    // Generate zigzag path nodes untuk 10 titik cerita
+    const nodesHTML = CHAPTERS_DATA.map((ch, idx) => {
+        const isCompleted = state.completedChapters.includes(ch.id);
+        const isCurrent = !isCompleted && (idx === 0 || state.completedChapters.includes(CHAPTERS_DATA[idx - 1].id));
+        // Posisi zigzag kiri - tengah - kanan
+        const alignClasses = [
+            'self-start ml-3',
+            'self-center',
+            'self-end mr-3',
+            'self-center'
+        ];
+        const alignClass = alignClasses[idx % 4];
+
+        return `
+        <div class="relative flex flex-col ${alignClass} w-[84%] z-10">
+            <button onclick="navigateTo('chapter', { currentChapterIndex: ${idx}, isVideoPlaying: false })"
+                class="group w-full text-left bg-white rounded-3xl p-3.5 shadow-lg border-b-4 transition-transform active:scale-95 flex items-center gap-3.5
+                ${isCompleted ? 'border-emerald-500' : isCurrent ? 'border-ghazi-gold ring-4 ring-ghazi-gold/40' : 'border-purple-200'}">
+                
+                <!-- Badge Nomor Titik -->
+                <div class="relative shrink-0">
+                    ${isCurrent ? `<span class="absolute inset-0 rounded-2xl bg-ghazi-gold animate-pulse-ring"></span>` : ''}
+                    <div class="relative w-12 h-12 rounded-2xl flex flex-col items-center justify-center font-display font-bold shadow-inner
+                        ${isCompleted ? 'bg-emerald-500 text-white' : isCurrent ? 'bg-ghazi-gold text-ghazi-dark' : 'bg-ghazi-soft text-ghazi-dark'}">
+                        <span class="text-[10px] leading-none opacity-80">TITIK</span>
+                        <span class="text-base leading-tight">${ch.code}</span>
+                    </div>
+                </div>
+
+                <!-- Judul & Status -->
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full
+                            ${isCompleted ? 'bg-emerald-100 text-emerald-700' : isCurrent ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-700'}">
+                            ${isCompleted ? '✓ Selesai' : isCurrent ? '★ Sedang Dijelajahi' : 'Siap Dibuka'}
+                        </span>
+                        ${ch.hasMiniMission ? `<span class="text-[10px] font-extrabold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">🎯 Misi</span>` : ''}
+                    </div>
+                    <h3 class="font-display font-bold text-slate-800 text-sm sm:text-base mt-1 leading-snug">
+                        ${ch.title}
+                    </h3>
+                </div>
+
+                <!-- Panah Play -->
+                <div class="w-8 h-8 rounded-full bg-ghazi-soft text-ghazi-dark group-hover:bg-ghazi-gold flex items-center justify-center shrink-0 font-bold text-xs transition">
+                    ▶
+                </div>
+            </button>
+        </div>`;
+    }).join(`
+        <!-- Garis Penghubung Jalur Gurun -->
+        <div class="h-6 flex justify-center items-center my-0.5">
+            <div class="h-full border-l-4 border-dashed border-ghazi-gold/60"></div>
+        </div>
+    `);
+
+    return `
+    ${getHeaderHTML('Peta Perjalanan Fathu Makkah', 'Jalur Petualangan Sejarah', true, 'splash')}
+
+    <main class="flex-1 p-4 pb-8 space-y-5 relative">
+        <!-- Kartu Sambutan Peta -->
+        <div class="bg-white/15 backdrop-blur-md rounded-3xl p-4 border border-white/20 flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-ghazi-gold text-ghazi-dark flex items-center justify-center text-2xl shrink-0 shadow">
+                🗺️
+            </div>
+            <div>
+                <h2 class="font-display font-bold text-white text-sm sm:text-base">Pilih Titik Cerita</h2>
+                <p class="text-purple-100 text-xs leading-relaxed">
+                    Ketuk setiap titik perjalanan dari Madinah menuju pembebasan Kota Makkah.
+                </p>
+            </div>
+        </div>
+
+        <!-- Jalur 10 Titik Cerita -->
+        <div class="flex flex-col py-1">
+            ${nodesHTML}
+        </div>
+
+        <!-- Zona Tantangan & Refleksi Akhir -->
+        <div class="pt-3 space-y-3">
+            <div class="flex items-center gap-2 px-1">
+                <span class="text-ghazi-gold text-base">✨</span>
+                <h3 class="font-display font-bold text-white text-base">Tantangan & Hikmah Perjalanan</h3>
+            </div>
+
+            <!-- Kartu Misi Khusus Penghancuran Berhala -->
+            <button onclick="navigateTo('mission')" class="w-full bg-white rounded-3xl p-4 shadow-lg border-b-4 border-amber-500 flex items-center gap-3.5 text-left active:scale-95 transition">
+                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center shrink-0">
+                    🗿
+                </div>
+                <div class="flex-1">
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full ${state.missionCompleted ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}">
+                        ${state.missionCompleted ? '✓ Misi Selesai' : 'Misi Interaktif'}
+                    </span>
+                    <h4 class="font-display font-bold text-slate-800 text-base mt-0.5">Pembersihan Berhala Ka'bah</h4>
+                    <p class="text-xs text-slate-500">Sentuh layar untuk membersihkan Ka'bah</p>
+                </div>
+                <span class="text-ghazi-dark font-bold">➔</span>
+            </button>
+
+            <!-- Kartu Mini Quiz -->
+            <button onclick="navigateTo('quiz')" class="w-full bg-white rounded-3xl p-4 shadow-lg border-b-4 border-purple-500 flex items-center gap-3.5 text-left active:scale-95 transition">
+                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-2xl flex items-center justify-center shrink-0">
+                    🧠
+                </div>
+                <div class="flex-1">
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full ${state.quizCompleted ? 'bg-emerald-100 text-emerald-700' : 'bg-purple-100 text-purple-700'}">
+                        ${state.quizCompleted ? `✓ Skor: ${state.quizScore}/100` : '5 Pertanyaan'}
+                    </span>
+                    <h4 class="font-display font-bold text-slate-800 text-base mt-0.5">Mini Quiz Fathu Makkah</h4>
+                    <p class="text-xs text-slate-500">Uji pemahaman sejarahmu di sini</p>
+                </div>
+                <span class="text-ghazi-dark font-bold">➔</span>
+            </button>
+
+            <!-- Kartu Hikmah Interaktif -->
+            <button onclick="navigateTo('hikmah')" class="w-full bg-white rounded-3xl p-4 shadow-lg border-b-4 border-emerald-500 flex items-center gap-3.5 text-left active:scale-95 transition">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center shrink-0">
+                    💎
+                </div>
+                <div class="flex-1">
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full ${state.discoveredHikmah.length === 4 ? 'bg-emerald-100 text-emerald-700' : 'bg-teal-100 text-teal-800'}">
+                        ${state.discoveredHikmah.length}/4 Hikmah Ditemukan
+                    </span>
+                    <h4 class="font-display font-bold text-slate-800 text-base mt-0.5">Kartu Hikmah Fathu Makkah</h4>
+                    <p class="text-xs text-slate-500">Temukan 4 nilai teladan utama</p>
+                </div>
+                <span class="text-ghazi-dark font-bold">➔</span>
+            </button>
+
+            <!-- Tombol Halaman Penyelesaian -->
+            <button onclick="navigateTo('complete')" class="w-full py-4 rounded-3xl btn-3d-gold text-ghazi-dark font-display font-bold text-base tracking-wide flex items-center justify-center gap-2 mt-2">
+                <span>🏆</span>
+                <span>LIHAT HASIL & PENYELESAIAN</span>
+            </button>
+        </div>
+    </main>`;
+}
+
+/**
+ * ============================================================================
+ * 3. HALAMAN CHAPTER CERITA + VIDEO INTERAKTIF + HOTSPOT
+ * ============================================================================
+ */
+function renderChapterScreen() {
+    const idx = state.currentChapterIndex;
+    const ch = CHAPTERS_DATA[idx];
+    const isLast = idx === CHAPTERS_DATA.length - 1;
+
+    // Tandai chapter ini telah dikunjungi/selesai
+    if (!state.completedChapters.includes(ch.id)) {
+        state.completedChapters.push(ch.id);
+        saveProgress();
+    }
+
+    const hotspotsHTML = ch.hotspots.map((hs, hIdx) => `
+        <button onclick="openHotspot(${idx}, ${hIdx})"
+            style="left: ${hs.x}%; top: ${hs.y}%;"
+            class="absolute -translate-x-1/2 -translate-y-1/2 z-20 group flex flex-col items-center">
+            <span class="absolute w-11 h-11 rounded-full bg-ghazi-gold animate-pulse-ring"></span>
+            <span class="relative w-11 h-11 rounded-full bg-ghazi-gold border-2 border-white text-ghazi-dark shadow-xl flex items-center justify-center text-xl font-bold group-active:scale-90 transition">
+                ${hs.icon}
+            </span>
+            <span class="mt-1 px-2.5 py-0.5 rounded-full bg-ghazi-dark/90 text-white text-[10px] font-bold whitespace-nowrap border border-ghazi-gold/60 shadow">
+                ${hs.label}
+            </span>
+        </button>
+    `).join('');
+
+    return `
+    ${getHeaderHTML(ch.title, `Chapter ${ch.code} dari 10`, true, 'map')}
+
+    <main class="flex-1 p-4 pb-8 flex flex-col justify-between space-y-4 animate-slide-up">
+        <!-- Kartu Video Player & Hotspot -->
+        <div class="bg-white rounded-3xl p-3 shadow-xl border-b-4 border-purple-200">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-ghazi-dark">
+                <!-- HTML5 Video Player (Mudah diganti di VIDEO_CONFIG) -->
+                <video id="chapter-video"
+                    src="${ch.videoUrl}"
+                    playsinline
+                    preload="metadata"
+                    poster="https://placehold.co/640x360/480878/FBBF24?text=MyGhazi+Chapter+${ch.code}"
+                    class="w-full h-full object-cover"
+                    onplay="updateVideoBtnState(true)"
+                    onpause="updateVideoBtnState(false)"
+                    onended="updateVideoBtnState(false)">
+                </video>
+
+                <!-- Overlay Hotspot Interaktif di atas adegan -->
+                <div class="absolute inset-0 pointer-events-auto">
+                    ${hotspotsHTML}
+                </div>
+
+                <!-- Badge Petunjuk Hotspot -->
+                <div class="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-ghazi-gold animate-ping"></span>
+                    <span>Ketuk ikon emas untuk info objek</span>
+                </div>
+            </div>
+
+            <!-- Kontrol Video Custom Ramah Sentuhan -->
+            <div class="mt-3 flex items-center justify-between gap-2">
+                <button id="btn-play-pause" onclick="toggleChapterVideo()"
+                    class="flex-1 py-2.5 px-4 rounded-2xl btn-3d-purple text-white font-display font-bold text-sm flex items-center justify-center gap-2">
+                    <span id="play-icon">▶</span>
+                    <span id="play-text">Putar Video Cerita</span>
+                </button>
+                <button onclick="restartChapterVideo()"
+                    class="w-11 h-11 rounded-2xl bg-ghazi-soft text-ghazi-dark font-bold flex items-center justify-center active:scale-95 transition"
+                    title="Ulangi Video">
+                    ↺
+                </button>
+            </div>
+        </div>
+
+        <!-- Kartu Narasi Sejarah -->
+        <div class="bg-white rounded-3xl p-5 shadow-xl border-b-4 border-purple-200 flex-1 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="px-3 py-1 rounded-full bg-ghazi-soft text-ghazi-dark text-xs font-extrabold">
+                        📖 Kisah Sejarah
+                    </span>
+                    <span class="text-xs font-bold text-slate-400">${ch.code} / 10</span>
+                </div>
+                <h2 class="font-display font-bold text-xl text-ghazi-dark mb-2">${ch.title}</h2>
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
+                    ${ch.narration}
+                </p>
+            </div>
+
+            <!-- Daftar Tombol Hotspot Cepat (Aksesibilitas Tambahan) -->
+            <div class="mt-4 pt-3 border-t border-slate-100">
+                <div class="text-[11px] font-extrabold text-slate-400 uppercase mb-2">Objek Interaktif di Adegan Ini:</div>
+                <div class="flex flex-wrap gap-2">
+                    ${ch.hotspots.map((hs, hIdx) => `
+                        <button onclick="openHotspot(${idx}, ${hIdx})"
+                            class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 text-xs font-bold flex items-center gap-1.5 active:scale-95 transition">
+                            <span>${hs.icon}</span>
+                            <span>${hs.label}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Navigasi Bawah -->
+        <div class="space-y-2.5 pt-1">
+            ${ch.hasMiniMission ? `
+                <button onclick="navigateTo('mission')"
+                    class="w-full py-3.5 px-5 rounded-3xl bg-gradient-to-r from-rose-500 to-orange-500 text-white font-display font-bold text-base shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
+                    <span>🎯</span>
+                    <span>MAINKAN MISI PEMBERSIHAN BERHALA</span>
+                </button>
+            ` : ''}
+
+            <div class="flex items-center gap-2.5">
+                ${idx > 0 ? `
+                    <button onclick="navigateTo('chapter', { currentChapterIndex: ${idx - 1} })"
+                        class="py-3.5 px-4 rounded-2xl bg-white/15 text-white font-display font-bold text-sm active:scale-95 transition">
+                        ◀ Sebelumnya
+                    </button>
+                ` : ''}
+
+                ${!isLast ? `
+                    <button onclick="navigateTo('chapter', { currentChapterIndex: ${idx + 1} })"
+                        class="flex-1 py-3.5 px-5 rounded-2xl btn-3d-gold text-ghazi-dark font-display font-bold text-base flex items-center justify-center gap-2">
+                        <span>LANJUT KE TITIK ${CHAPTERS_DATA[idx + 1].code}</span>
+                        <span>▶</span>
+                    </button>
+                ` : `
+                    <button onclick="navigateTo('quiz')"
+                        class="flex-1 py-3.5 px-5 rounded-2xl btn-3d-gold text-ghazi-dark font-display font-bold text-base flex items-center justify-center gap-2">
+                        <span>LANJUT KE MINI QUIZ</span>
+                        <span>🧠</span>
+                    </button>
+                `}
+            </div>
+        </div>
+    </main>`;
+}
+
+function toggleChapterVideo() {
+    const vid = document.getElementById('chapter-video');
+    if (!vid) return;
+    SoundFX.playTap();
+    if (vid.paused) {
+        vid.play().catch(() => {});
+    } else {
+        vid.pause();
+    }
+}
+
+function restartChapterVideo() {
+    const vid = document.getElementById('chapter-video');
+    if (!vid) return;
+    SoundFX.playTap();
+    vid.currentTime = 0;
+    vid.play().catch(() => {});
+}
+
+function updateVideoBtnState(isPlaying) {
+    const icon = document.getElementById('play-icon');
+    const text = document.getElementById('play-text');
+    if (icon && text) {
+        icon.textContent = isPlaying ? '⏸' : '▶';
+        text.textContent = isPlaying ? 'Jeda Video' : 'Putar Video Cerita';
+    }
+}
+
+/**
+ * ============================================================================
+ * 4. MISI INTERAKTIF: PENGHANCURAN BERHALA (TANPA VISUALISASI NABI)
+ * ============================================================================
+ */
+function renderMissionScreen() {
+    const remaining = state.idolsDestroyed.filter(x => !x).length;
+    const allCleared = remaining === 0;
+
+    const idolNames = ["Berhala Hubal", "Berhala Latta", "Berhala Uzza", "Berhala Manat"];
+
+    return `
+    ${getHeaderHTML('Pembersihan Berhala', 'Misi Interaktif Chapter 06', true, 'map')}
+
+    <main class="flex-1 p-4 pb-8 flex flex-col justify-between space-y-4 animate-slide-up">
+        <!-- Instruksi Misi -->
+        <div class="bg-white rounded-3xl p-4 shadow-xl border-b-4 border-ghazi-gold text-center">
+            <span class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold uppercase mb-1">
+                ${allCleared ? '✨ Misi Berhasil!' : `Sisa Berhala: ${remaining}`}
+            </span>
+            <h2 class="font-display font-bold text-lg text-ghazi-dark">
+                ${allCleared ? "Ka'bah Kini Suci & Bersih!" : "Ketuk berhala untuk menyaksikan perubahan di Kota Makkah."}
+            </h2>
+        </div>
+
+        <!-- Area Interaktif Ka'bah & Berhala -->
+        <div class="relative bg-gradient-to-b from-purple-900/90 to-amber-900/60 rounded-3xl p-5 border-2 border-ghazi-gold/50 shadow-2xl overflow-hidden flex flex-col items-center justify-center min-h-[330px]">
+            <!-- Cahaya Tauhid Muncul Saat Bersih -->
+            <div class="absolute inset-0 transition-opacity duration-700 pointer-events-none ${allCleared ? 'opacity-100' : 'opacity-20'}"
+                 style="background: radial-gradient(circle at center, rgba(251,191,36,0.45) 0%, transparent 70%);">
+            </div>
+
+            <!-- Ilustrasi Ka'bah Suci di Tengah (Tanpa figur manusia/Nabi) -->
+            <div class="relative z-10 mb-4 transform transition-transform duration-500 ${allCleared ? 'scale-110' : 'scale-95'}">
+                <svg viewBox="0 0 160 150" class="w-36 h-36 drop-shadow-2xl">
+                    <ellipse cx="80" cy="136" rx="64" ry="12" fill="rgba(0,0,0,0.4)"/>
+                    <!-- Sisi Kiri -->
+                    <polygon points="24,36 80,56 80,132 24,112" fill="#1E1B4B"/>
+                    <!-- Sisi Kanan -->
+                    <polygon points="80,56 136,36 136,112 80,132" fill="#312E81"/>
+                    <!-- Atap -->
+                    <polygon points="80,18 136,36 80,56 24,36" fill="#4338CA"/>
+                    <!-- Sabuk Kiswah Emas -->
+                    <polygon points="24,56 80,76 80,86 24,66" fill="#FBBF24"/>
+                    <polygon points="80,76 136,56 136,66 80,86" fill="#F59E0B"/>
+                    <!-- Pintu Emas -->
+                    <polygon points="96,86 114,79 114,120 96,127" fill="#FBBF24"/>
+                </svg>
+                ${allCleared ? `
+                    <div class="mt-1 text-center animate-pop">
+                        <span class="px-3 py-1 rounded-full bg-ghazi-gold text-ghazi-dark font-display font-bold text-xs shadow">
+                            Allahu Akbar • Tauhid Tegak!
+                        </span>
+                    </div>
+                ` : ''}
+            </div>
+
+            <!-- Grid 4 Berhala yang Dapat Diketuk -->
+            <div class="relative z-20 grid grid-cols-2 gap-3 w-full">
+                ${state.idolsDestroyed.map((destroyed, idx) => `
+                    <div class="relative h-20 flex items-center justify-center">
+                        ${!destroyed ? `
+                            <button onclick="destroyIdol(${idx})"
+                                class="w-full h-full rounded-2xl bg-white/95 hover:bg-white border-b-4 border-stone-400 shadow-lg flex flex-col items-center justify-center p-2 active:scale-90 transition cursor-pointer">
+                                <!-- SVG Berhala Batu Sederhana -->
+                                <svg viewBox="0 0 60 60" class="w-9 h-9">
+                                    <rect x="16" y="46" width="28" height="8" rx="2" fill="#78716C"/>
+                                    <path d="M20 46 L23 22 L37 22 L40 46 Z" fill="#A8A29E"/>
+                                    <circle cx="30" cy="15" r="8" fill="#78716C"/>
+                                    <line x1="26" y1="14" x2="28" y2="14" stroke="#292524" stroke-width="2"/>
+                                    <line x1="32" y1="14" x2="34" y2="14" stroke="#292524" stroke-width="2"/>
+                                </svg>
+                                <span class="text-[11px] font-extrabold text-stone-700 mt-0.5">${idolNames[idx]}</span>
+                            </button>
+                        ` : `
+                            <!-- Efek Debu & Reruntuhan -->
+                            <div id="dust-${idx}" class="w-full h-full rounded-2xl bg-emerald-500/25 border border-emerald-300/40 flex flex-col items-center justify-center text-center p-2 animate-pop">
+                                <span class="text-xl">✨</span>
+                                <span class="text-[11px] font-bold text-emerald-100">Bersih!</span>
+                            </div>
+                        `}
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <!-- Penjelasan Hikmah Tauhid -->
+        ${allCleared ? `
+            <div class="bg-white rounded-3xl p-4 shadow-xl border-b-4 border-emerald-500 animate-pop">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shrink-0">
+                        🕋
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-ghazi-dark text-base">Tegaknya Kalimat Tauhid</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                            Seluruh 360 berhala di sekeliling Ka'bah dibersihkan. Makkah kembali menjadi pusat ibadah hanya kepada Allah Yang Maha Esa tanpa sekutu bagi-Nya.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="navigateTo('chapter', { currentChapterIndex: 6 })"
+                class="w-full py-4 rounded-3xl btn-3d-gold text-ghazi-dark font-display font-bold text-base flex items-center justify-center gap-2">
+                <span>LANJUT KE CHAPTER 07</span>
+                <span>▶</span>
+            </button>
+        ` : `
+            <button onclick="resetMissionIdols()" class="w-full py-3 rounded-2xl bg-white/15 text-purple-100 font-bold text-xs">
+                Ketuk semua berhala di atas untuk membersihkan area Ka'bah
+            </button>
+        `}
+    </main>`;
+}
+
+function destroyIdol(idx) {
+    if (state.idolsDestroyed[idx]) return;
+    SoundFX.playCrumble();
+    state.idolsDestroyed[idx] = true;
+
+    if (state.idolsDestroyed.every(Boolean)) {
+        state.missionCompleted = true;
+        saveProgress();
+        setTimeout(() => SoundFX.playSuccess(), 250);
+    }
+    render();
+}
+
+function resetMissionIdols() {
+    state.idolsDestroyed = [false, false, false, false];
+    render();
+}
+
+/**
+ * ============================================================================
+ * 5. MINI QUIZ (5 PERTANYAAN PILIHAN GANDA INTERAKTIF)
+ * ============================================================================
+ */
+function renderQuizScreen() {
+    const qIdx = state.quizIndex;
+    const total = QUIZ_DATA.length;
+
+    // Tampilan Ringkasan Kuis Selesai
+    if (state.quizCompleted && qIdx >= total) {
+        return `
+        ${getHeaderHTML('Hasil Mini Quiz', 'Evaluasi Pemahaman', true, 'map')}
+        <main class="flex-1 p-5 flex flex-col justify-center items-center text-center space-y-5 animate-pop">
+            <div class="bg-white rounded-3xl p-6 shadow-2xl border-b-4 border-ghazi-gold w-full">
+                <div class="w-20 h-20 mx-auto rounded-full bg-amber-100 flex items-center justify-center text-4xl mb-3 shadow-inner">
+                    🏆
+                </div>
+                <span class="px-3 py-1 rounded-full bg-purple-100 text-ghazi-dark text-xs font-extrabold uppercase">
+                    Kuis Selesai
+                </span>
+                <h2 class="font-display font-bold text-2xl text-ghazi-dark mt-2">Skor Kamu</h2>
+                <div class="font-display font-bold text-5xl text-ghazi-orange my-2">
+                    ${state.quizScore}<span class="text-xl text-slate-400">/100</span>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    ${state.quizScore >= 80
+                        ? 'MasyaAllah! Pemahamanmu tentang sejarah Fathu Makkah sangat luar biasa!'
+                        : 'Bagus! Kamu bisa mengulang kuis kapan saja untuk meraih nilai sempurna.'}
+                </p>
+
+                <div class="mt-6 space-y-2.5">
+                    <button onclick="navigateTo('hikmah')" class="w-full py-3.5 rounded-2xl btn-3d-gold text-ghazi-dark font-display font-bold text-base">
+                        LANJUT KE HIKMAH INTERAKTIF 💎
+                    </button>
+                    <button onclick="restartQuiz()" class="w-full py-3 rounded-2xl bg-ghazi-soft text-ghazi-dark font-display font-bold text-sm">
+                        ↺ Ulangi Mini Quiz
+                    </button>
+                </div>
+            </div>
+        </main>`;
+    }
+
+    const q = QUIZ_DATA[qIdx];
+    const letters = ['A', 'B', 'C', 'D'];
+
+    return `
+    ${getHeaderHTML('Mini Quiz Fathu Makkah', `Soal ${qIdx + 1} dari ${total}`, true, 'map')}
+
+    <main class="flex-1 p-4 pb-8 flex flex-col justify-between space-y-4 animate-slide-up">
+        <!-- Info Skor & Progress Soal -->
+        <div class="flex items-center justify-between bg-white/15 px-4 py-2.5 rounded-2xl border border-white/15">
+            <div class="flex items-center gap-1.5">
+                ${QUIZ_DATA.map((_, i) => `
+                    <span class="h-2.5 rounded-full transition-all ${i === qIdx ? 'w-6 bg-ghazi-gold' : i < qIdx ? 'w-2.5 bg-emerald-400' : 'w-2.5 bg-white/30'}"></span>
+                `).join('')}
+            </div>
+            <div class="text-xs font-extrabold text-ghazi-gold">
+                Skor: ${state.quizScore}
+            </div>
+        </div>
+
+        <!-- Kartu Pertanyaan -->
+        <div class="bg-white rounded-3xl p-5 shadow-xl border-b-4 border-purple-200">
+            <span class="inline-block px-3 py-1 rounded-full bg-ghazi-soft text-ghazi-dark text-xs font-extrabold mb-2">
+                Pertanyaan #${qIdx + 1}
+            </span>
+            <h2 class="font-display font-bold text-lg sm:text-xl text-slate-800 leading-snug">
+                ${q.question}
+            </h2>
+
+            <!-- 4 Pilihan Jawaban -->
+            <div class="mt-4 space-y-2.5">
+                ${q.options.map((opt, oIdx) => {
+                    let btnStyle = 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-ghazi-soft';
+                    let badgeStyle = 'bg-white text-ghazi-dark border border-slate-200';
+                    let animClass = '';
+
+                    if (state.quizAnswered) {
+                        if (oIdx === q.correct) {
+                            btnStyle = 'bg-emerald-50 border-emerald-500 text-emerald-900 font-bold';
+                            badgeStyle = 'bg-emerald-500 text-white border-emerald-500';
+                            if (state.selectedOption === oIdx) animClass = 'animate-pop';
+                        } else if (oIdx === state.selectedOption) {
+                            btnStyle = 'bg-rose-50 border-rose-500 text-rose-900';
+                            badgeStyle = 'bg-rose-500 text-white border-rose-500';
+                            animClass = 'animate-shake';
+                        } else {
+                            btnStyle = 'bg-slate-50 border-slate-100 text-slate-400 opacity-60';
+                        }
+                    }
+
+                    return `
+                    <button onclick="answerQuiz(${oIdx})" ${state.quizAnswered ? 'disabled' : ''}
+                        class="w-full p-3.5 rounded-2xl border-2 text-left flex items-center gap-3 transition ${btnStyle} ${animClass}">
+                        <span class="w-8 h-8 rounded-xl flex items-center justify-center font-display font-bold text-sm shrink-0 ${badgeStyle}">
+                            ${letters[oIdx]}
+                        </span>
+                        <span class="text-sm font-semibold leading-snug flex-1">${opt}</span>
+                        ${state.quizAnswered && oIdx === q.correct ? '<span class="text-lg">✅</span>' : ''}
+                        ${state.quizAnswered && oIdx === state.selectedOption && oIdx !== q.correct ? '<span class="text-lg">❌</span>' : ''}
+                    </button>`;
+                }).join('')}
+            </div>
+
+            <!-- Feedback Jawaban -->
+            ${state.quizAnswered ? `
+                <div class="mt-4 p-3.5 rounded-2xl ${state.selectedOption === q.correct ? 'bg-emerald-100/80 text-emerald-900' : 'bg-amber-100/80 text-amber-900'} text-xs sm:text-sm animate-pop">
+                    <div class="font-extrabold mb-0.5">
+                        ${state.selectedOption === q.correct ? '🎉 Jawaban Benar! (+20 Poin)' : '💡 Kurang Tepat, Yuk Pelajari:'}
+                    </div>
+                    <p>${q.explanation}</p>
+                </div>
+            ` : ''}
+        </div>
+
+        <!-- Tombol Lanjut Soal -->
+        <div>
+            ${state.quizAnswered ? `
+                <button onclick="nextQuizQuestion()" class="w-full py-4 rounded-3xl btn-3d-gold text-ghazi-dark font-display font-bold text-base">
+                    ${qIdx + 1 < total ? 'SOAL BERIKUTNYA ▶' : 'LIHAT SKOR AKHIR 🏆'}
+                </button>
+            ` : `
+                <div class="text-center text-xs text-purple-200 font-semibold">
+                    Pilih salah satu jawaban di atas
+                </div>
+            `}
+        </div>
+    </main>`;
+}
+
+function answerQuiz(optionIdx) {
+    if (state.quizAnswered) return;
+    state.quizAnswered = true;
+    state.selectedOption = optionIdx;
+
+    const currentQ = QUIZ_DATA[state.quizIndex];
+    if (optionIdx === currentQ.correct) {
+        state.quizScore += 20;
+        SoundFX.playSuccess();
+    } else {
+        SoundFX.playError();
+    }
+    render();
+}
+
+function nextQuizQuestion() {
+    SoundFX.playTap();
+    state.quizIndex += 1;
+    state.quizAnswered = false;
+    state.selectedOption = null;
+
+    if (state.quizIndex >= QUIZ_DATA.length) {
+        state.quizCompleted = true;
+        saveProgress();
+    }
+    render();
+}
+
+function restartQuiz() {
+    SoundFX.playTap();
+    state.quizIndex = 0;
+    state.quizScore = 0;
+    state.quizAnswered = false;
+    state.selectedOption = null;
+    state.quizCompleted = false;
+    render();
+}
+
+/**
+ * ============================================================================
+ * 6. HIKMAH INTERAKTIF (4 KARTU NILAI UTAMA)
+ * ============================================================================
+ */
+function renderHikmahScreen() {
+    const allFound = state.discoveredHikmah.length === HIKMAH_DATA.length;
+    const selectedCard = HIKMAH_DATA.find(h => h.id === state.activeHikmah);
+
+    return `
+    ${getHeaderHTML('Hikmah Fathu Makkah', `${state.discoveredHikmah.length}/4 Hikmah Ditemukan`, true, 'map')}
+
+    <main class="flex-1 p-4 pb-8 flex flex-col justify-between space-y-4 animate-slide-up">
+        <div class="bg-white/15 backdrop-blur-md rounded-3xl p-4 border border-white/20 text-center">
+            <h2 class="font-display font-bold text-white text-base">Ketuk Setiap Ikon Hikmah</h2>
+            <p class="text-purple-100 text-xs mt-0.5">
+                Temukan keempat nilai teladan dari peristiwa Fathu Makkah.
+            </p>
+        </div>
+
+        <!-- Grid 4 Kartu Hikmah -->
+        <div class="grid grid-cols-2 gap-3">
+            ${HIKMAH_DATA.map(h => {
+                const isFound = state.discoveredHikmah.includes(h.id);
+                const isActive = state.activeHikmah === h.id;
+                return `
+                <button onclick="selectHikmah('${h.id}')"
+                    class="rounded-3xl p-4 text-center transition active:scale-95 flex flex-col items-center justify-center min-h-[135px] shadow-lg border-b-4
+                    ${isFound
+                        ? `bg-white border-ghazi-gold ${isActive ? 'ring-4 ring-ghazi-gold' : ''}`
+                        : 'bg-white/90 border-purple-200'}">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${h.color} text-white text-3xl flex items-center justify-center shadow-md mb-2 ${isActive ? 'animate-pop' : ''}">
+                        ${h.icon}
+                    </div>
+                    <span class="font-display font-bold text-sm text-ghazi-dark tracking-wide">${h.title}</span>
+                    <span class="mt-1 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${isFound ? 'bg-emerald-100 text-emerald-700' : 'bg-purple-100 text-purple-700'}">
+                        ${isFound ? '✓ Terbuka' : 'Ketuk Ikon'}
+                    </span>
+                </button>`;
+            }).join('')}
+        </div>
+
+        <!-- Panel Penjelasan Hikmah yang Dipilih -->
+        ${selectedCard ? `
+            <div class="bg-white rounded-3xl p-5 shadow-xl border-b-4 border-ghazi-gold animate-pop">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">${selectedCard.icon}</span>
+                    <h3 class="font-display font-bold text-lg text-ghazi-dark">${selectedCard.title}</h3>
+                </div>
+                <p class="text-slate-700 text-sm leading-relaxed font-medium">
+                    ${selectedCard.summary}
+                </p>
+            </div>
+        ` : `
+            <div class="bg-white/10 rounded-3xl p-5 border border-dashed border-white/30 text-center text-xs text-purple-200">
+                Pilih salah satu kartu di atas untuk membaca penjelasan hikmahnya.
+            </div>
+        `}
+
+        <!-- Reward Jika Semua 4 Hikmah Berhasil Ditemukan -->
+        ${allFound ? `
+            <div class="bg-gradient-to-r from-amber-400 to-orange-500 rounded-3xl p-4 text-ghazi-dark shadow-xl animate-pop flex items-center gap-3">
+                <span class="text-3xl">🌟</span>
+                <div class="flex-1">
+                    <div class="font-display font-bold text-sm">Lencana Penjelajah Hikmah Diraih!</div>
+                    <div class="text-xs font-semibold opacity-90">Semua nilai teladan Fathu Makkah telah ditemukan.</div>
+                </div>
+            </div>
+
+            <button onclick="navigateTo('complete')" class="w-full py-4 rounded-3xl btn-3d-gold text-ghazi-dark font-display font-bold text-base">
+                SELESAIKAN PERJALANAN 🏆
+            </button>
+        ` : ''}
+    </main>`;
+}
+
+function selectHikmah(id) {
+    state.activeHikmah = id;
+    if (!state.discoveredHikmah.includes(id)) {
+        state.discoveredHikmah.push(id);
+        saveProgress();
+        if (state.discoveredHikmah.length === HIKMAH_DATA.length) {
+            SoundFX.playSuccess();
+        } else {
+            SoundFX.playTap();
+        }
+    } else {
+        SoundFX.playTap();
+    }
+    render();
+}
+
+/**
+ * ============================================================================
+ * 7. HALAMAN PENYELESAIAN (STAGE COMPLETED)
+ * ============================================================================
+ */
+function renderCompleteScreen() {
+    return `
+    <div class="flex-1 p-5 flex flex-col justify-between items-center text-center animate-slide-up">
+        <!-- Header Logo -->
+        <div class="pt-2">
+            <span class="inline-flex items-center gap-2 bg-white/15 px-3.5 py-1 rounded-full text-xs font-display font-bold text-white border border-white/20">
+                <span>My<span class="text-ghazi-gold">Ghazi</span></span>
+                <span>•</span>
+                <span>Sirah Interaktif</span>
+            </span>
+        </div>
+
+        <!-- Kartu Utama Stage Completed -->
+        <div class="bg-white rounded-3xl p-6 shadow-2xl border-4 border-ghazi-gold w-full my-4 animate-pop">
+            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-ghazi-gold to-ghazi-orange flex items-center justify-center text-4xl shadow-lg mb-3">
+                🏆
+            </div>
+
+            <div class="inline-block px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold tracking-wider uppercase">
+                STAGE COMPLETED
+            </div>
+
+            <h1 class="font-display font-bold text-2xl text-ghazi-dark mt-2 leading-tight">
+                FATHU MAKKAH TELAH SELESAI DIJELAJAHI
+            </h1>
+            <p class="text-slate-500 text-xs mt-1.5">
+                Alhamdulillah! Kamu telah menelusuri kisah pembebasan Kota Makkah yang penuh kedamaian.
+            </p>
+
+            <!-- Ringkasan Skor & Progres -->
+            <div class="grid grid-cols-2 gap-2.5 mt-4">
+                <div class="bg-ghazi-soft rounded-2xl p-3">
+                    <div class="text-[11px] font-bold text-purple-700">Skor Mini Quiz</div>
+                    <div class="font-display font-bold text-2xl text-ghazi-dark">${state.quizScore}<span class="text-xs">/100</span></div>
+                </div>
+                <div class="bg-amber-50 rounded-2xl p-3">
+                    <div class="text-[11px] font-bold text-amber-800">Titik Cerita</div>
+                    <div class="font-display font-bold text-2xl text-ghazi-orange">${state.completedChapters.length}<span class="text-xs">/10</span></div>
+                </div>
+            </div>
+
+            <!-- Hikmah yang Ditemukan -->
+            <div class="mt-4 text-left bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
+                <div class="text-xs font-extrabold text-slate-600 mb-2">
+                    💎 Hikmah yang Ditemukan (${state.discoveredHikmah.length}/4):
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                    ${HIKMAH_DATA.map(h => {
+                        const found = state.discoveredHikmah.includes(h.id);
+                        return `
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1
+                            ${found ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-500'}">
+                            <span>${h.icon}</span>
+                            <span>${h.title}</span>
+                        </span>`;
+                    }).join('')}
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi Akhir -->
+        <div class="w-full space-y-2.5 pb-3">
+            <button onclick="resetAllJourney()" class="w-full py-4 rounded-3xl btn-3d-gold text-ghazi-dark font-display font-bold text-base tracking-wide">
+                ↺ ULANGI PERJALANAN
+            </button>
+
+            <button onclick="exitToMyGhazi()" class="w-full py-3.5 rounded-3xl bg-white/15 hover:bg-white/25 border border-white/25 text-white font-display font-bold text-sm tracking-wide transition">
+                🏠 KEMBALI KE MYGHAZI
+            </button>
+        </div>
+    </div>`;
+}
+
+function resetAllJourney() {
+    SoundFX.playTap();
+    state.currentChapterIndex = 0;
+    state.completedChapters = [];
+    state.missionCompleted = false;
+    state.idolsDestroyed = [false, false, false, false];
+    state.quizIndex = 0;
+    state.quizScore = 0;
+    state.quizAnswered = false;
+    state.selectedOption = null;
+    state.quizCompleted = false;
+    state.discoveredHikmah = [];
+    state.activeHikmah = null;
+    saveProgress();
+    navigateTo('splash');
+}
+
+/**
+ * Integrasi Kodular WebViewer:
+ * Mengirim sinyal string ke Kodular WebViewString jika dibuka di dalam Android App,
+ * sekaligus menampilkan kartu konfirmasi ramah pengguna.
+ */
+function exitToMyGhazi() {
+    SoundFX.playSuccess();
+    try {
+        // Kirim sinyal ke Kodular WebViewer jika aplikasi berjalan di dalam Android WebView
+        if (window.AppInventor && typeof window.AppInventor.setWebViewString === 'function') {
+            window.AppInventor.setWebViewString("CLOSE_FATHU_MAKKAH");
+        }
+    } catch (e) {}
+
+    showModal(`
+        <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-purple-100 flex items-center justify-center text-3xl">
+                📱
+            </div>
+            <h3 class="font-display font-bold text-xl text-ghazi-dark mb-1">Kembali ke Aplikasi MyGhazi</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                Sinyal kembali telah dikirim ke aplikasi <strong>MyGhazi</strong> di Kodular. Jika di browser, gunakan tombol di bawah ini.
+            </p>
+            <div class="space-y-2">
+                <button onclick="closeModal(); navigateTo('splash');" class="w-full py-3 rounded-2xl btn-3d-purple text-white font-display font-bold text-sm">
+                    Ke Halaman Pembuka
+                </button>
+                <button onclick="closeModal()" class="w-full py-2.5 rounded-2xl bg-slate-100 text-slate-600 font-bold text-xs">
+                    Tetap di Halaman Ini
+                </button>
+            </div>
+        </div>
+    `);
+}
+
+/**
+ * ============================================================================
+ * RENDER UTAMA
+ * ============================================================================
+ */
+function render() {
+    const app = document.getElementById('app');
+    switch (state.screen) {
+        case 'splash':
+            app.innerHTML = renderSplashScreen();
+            break;
+        case 'map':
+            app.innerHTML = renderMapScreen();
+            break;
+        case 'chapter':
+            app.innerHTML = renderChapterScreen();
+            break;
+        case 'mission':
+            app.innerHTML = renderMissionScreen();
+            break;
+        case 'quiz':
+            app.innerHTML = renderQuizScreen();
+            break;
+        case 'hikmah':
+            app.innerHTML = renderHikmahScreen();
+            break;
+        case 'complete':
+            app.innerHTML = renderCompleteScreen();
+            break;
+        default:
+            app.innerHTML = renderSplashScreen();
+    }
+}
+
+// Inisialisasi aplikasi saat halaman dimuat
+window.addEventListener('DOMContentLoaded', () => {
+    render();
+});
+</script>
+</body>
+</html>
